@@ -1004,6 +1004,67 @@ classdef SubClass_Ent_and_Fid
             obj.epM_nonuni=expr;   
        
         end
+
+        function obj=NonUniMwayEp_CR_Analytical(obj,Nnuc,Ntarget,phi0,phi1,n0,n1,th0,th1,u0,u1)
+            %Input: Nnuc: Total # of nuclei
+            %       Ntarget: # of target nuclei
+            %       phi0,phi1: Rot angles of unwanted spins
+            %       n0,n1: Rot axes of unwanted spins
+            %       th0,th1: Rot angles of target spins
+            %       u0,u1: Rot axes of target spins
+
+            %To calculate the non-unitary M way entangling power of CR type
+            %evolution operator. The non-unitarity arises due to partial trace
+            %of unwanted nuclei. The metric includes the impact of unwanted
+            %correlations on target M-way entangling power.
+        
+            if Ntarget~=length(th0)
+           
+                error('The length of rot angle array passed for target nuclei is not equal to # of target nuclei.') 
+                
+            end
+            
+            g1T=@(indx) (cos(th0(indx)/2)*cos(th1(indx)/2)+...
+                     dot(u0(indx,:),u1(indx,:))*sin(th0(indx)/2)*sin(th1(indx)/2))^2;
+         
+            g1U=@(indx) (cos(phi0(indx)/2)*cos(phi1(indx)/2)+...
+                     dot(n0(indx,:),n1(indx,:))*sin(phi0(indx)/2)*sin(phi1(indx)/2))^2;
+                 
+                 
+            Nunw      = Nnuc-Ntarget;
+        
+            exprU=1;
+
+            for jj=1:Nunw
+                
+                
+                exprU=exprU*(g1U(jj) + (...
+                      n0(jj,3)*sin(phi0(jj)/2)*cos(phi1(jj)/2)...
+                     -n1(jj,3)*sin(phi1(jj)/2)*cos(phi0(jj)/2)...
+                     -(n1(jj,1)*n0(jj,2)-n0(jj,1)*n1(jj,2))*sin(phi0(jj)/2)*sin(phi1(jj)/2)...
+                             ...
+                                 )^2 ...
+                             );
+                
+            end
+            
+            exprU=(exprU+1)/2;
+            
+            %Calculate the target subspace entangling power:
+            exprT=1;
+            
+            for jj=1:Ntarget
+                
+                exprT = exprT*(1-g1T(jj));
+                
+            end
+            
+            d         = 2;
+            prefactor = (d/(d+1))^(Ntarget+1);
+           
+            obj.epM_nonuni=prefactor*exprT*exprU;   
+       
+        end
         
         function obj=NonUniMwayEp_CR_Aproximate(obj,Nnuc,Ntarget,phi0,phi1,n0,n1,th0,th1,u0,u1)
             %Input: Nnuc: Total # of nuclei
