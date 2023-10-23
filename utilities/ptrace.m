@@ -1,4 +1,5 @@
 function x = ptrace(p, traceout, dims)
+%utility retrieved from: https://github.com/CoryGroup/quantum-utils-matlab/tree/master
 % Takes the partial trace of a matrix p
 %
 % Arguments:

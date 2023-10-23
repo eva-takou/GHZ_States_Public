@@ -1,4 +1,6 @@
 function Y = VChooseK(X, K)
+%Jan (2023). VChooseK (https://www.mathworks.com/matlabcentral/fileexchange/26190-vchoosek), MATLAB Central File Exchange. Retrieved October 23, 2023.
+%
 % VChooseK - Combinations of K elements [MEX]
 % VChooseK(V, K) creates a matrix, which rows are all combinations of 
 % choosing K elements of the vector V without order and without repititions.

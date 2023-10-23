@@ -1,4 +1,5 @@
 function M = superkron(varargin)
+%Jean-Daniel (2023). Superkron (https://www.mathworks.com/matlabcentral/fileexchange/32578-superkron), MATLAB Central File Exchange. Retrieved October 23, 2023.
 % M = superkron(M1, M2, [M3, ...]);
 % or
 % M = superkron({M1, M2, ...})
