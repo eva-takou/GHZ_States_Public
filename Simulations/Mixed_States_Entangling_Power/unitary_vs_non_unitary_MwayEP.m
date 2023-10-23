@@ -1,4 +1,8 @@
 function unitary_vs_non_unitary_MwayEP(path_Sequential,path_Multispin)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: Oct 23, 2023
+%--------------------------------------------------------------------------
 %Script to compare the unitary with the non-unitary M-way entangling power.
 %Input: path of sequential or multispin data.
 %       The data should have all the info about target nuclei, unwanted
