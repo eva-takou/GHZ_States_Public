@@ -1,5 +1,17 @@
 function run_gaussian_Pulse_Errors_MultiSpin(variance)
-
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: Oct 23, 2023
+%--------------------------------------------------------------------------
+%
+%Script to add random over-/under-rotation errors for the Rx(pi) pulses,
+%sampled from a normal distribution and calculate the M-tangling power of
+%the target subspace. Considers the multispin protocol of arXiv:2302.05580,
+%and GHZ4 states.
+%
+%Input: variance of normal distribution
+%
+%--------------------------------------------------------------------------
 close all
 
 %Yellows={[255,185,15]/255,[255,215,0]/255,[238,238,0]/255};    
