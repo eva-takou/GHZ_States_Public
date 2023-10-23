@@ -1,4 +1,18 @@
 function run_Pulse_Errors_Delft_Error_Rates_MultiSpin
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: Oct 23, 2023
+%--------------------------------------------------------------------------
+%
+%Scirpt to add pulse errors for the Rx pulses based on the error rates
+%reported in G. De Lange. “Quantum control and coherence of interacting spins in diamond”. PhD thesis. Delft University of Technology. (2012)
+%
+%This script calculates the effect of pulse errors on the M-tangling power
+%of the target subspace for GHZ4 states, assuming the multi-spin scheme.
+%Ref:arXiv:2302.05580
+%--------------------------------------------------------------------------
+
+
 close all
 
 %Yellows={[255,185,15]/255,[255,215,0]/255,[238,238,0]/255};    
