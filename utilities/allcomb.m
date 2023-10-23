@@ -1,4 +1,5 @@
 function A = allcomb(varargin)
+%Jos (10584) (2023). allcomb(varargin) (https://www.mathworks.com/matlabcentral/fileexchange/10064-allcomb-varargin), MATLAB Central File Exchange. Retrieved October 23, 2023.
 % ALLCOMB - All combinations
 %    B = ALLCOMB(A1,A2,A3,...,AN) returns all combinations of the elements
 %    in the arrays A1, A2, ..., and AN. B is P-by-N matrix where P is the product
