@@ -1,3 +1,9 @@
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: Oct 23, 2023
+%--------------------------------------------------------------------------
+
+
 %% First, test for a single unwanted spin, 2 target ones
 
 clearvars; clc;
