@@ -1,13 +1,14 @@
 # GHZ_states_Preparation
 
-Codes used to produce the results of the paper "Generation of genuine all-way entanglement in defect-nuclear spin systems through
-dynamical decoupling sequences", by E. Takou, E. Barnes, and S. E. Economou.
+Scripts used to produce the results of the paper "Generation of genuine all-way entanglement in defect-nuclear spin systems through
+dynamical decoupling sequences", by E. Takou, E. Barnes, and S. E. Economou, arXiv:2302.05580.
 
 We use decoupling sequences that drive the central electronic spin so as to manipulate the entanglement within the electron-nuclear spin register.
 
 
 There are three main classes used throughout the simultations. 
--The class "SuperClass_Sequences" contains various sequences such that the CPMG, UDD and XY2 sequences. 
+
+-The class "SuperClass_Sequences" contains various sequences such as the CPMG, UDD and XY2 sequences. 
 
 -The classs "SubClass_U4Operations" inherits the properties from the class "SuperClass_Sequences", and can be used to simulate the evolution of a single nuclear spin coupled with the electron, to calculate the Makhlin invariants or entangling power of two-qubit gate.  
 
