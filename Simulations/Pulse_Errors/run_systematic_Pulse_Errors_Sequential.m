@@ -1,4 +1,16 @@
 function run_systematic_Pulse_Errors_Sequential(pulse_error)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: Oct 23, 2023
+%--------------------------------------------------------------------------
+%
+%Scirpt to add pulse errors for the Rx pulses and find the effect on the M-tangling power
+%of GHZ4 states, using the sequential scheme. Ref:arXiv:2302.05580
+%--------------------------------------------------------------------------
+%
+%Input: Pulse error is systematic pulse error of Rx(pi) (% of pi)
+%--------------------------------------------------------------------------
+
 close all
 %Yellows={[255,185,15]/255,[255,215,0]/255,[238,238,0]/255};    
 %Grays={[119,136,153]/255,[159,182,205]/255,[112,128,144]/255};
