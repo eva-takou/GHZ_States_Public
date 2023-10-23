@@ -1,4 +1,23 @@
 function OUT=minimize_MTangle(At,Bt,Aunw,Bunw,times,iters)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: Oct 23, 2023
+%--------------------------------------------------------------------------
+%
+%Function to minimize the M-tangle of a mixed state of rank 2 via convex hull
+%construction.[See Ref. https://dx.doi.org/10.1103/PhysRevA.77.032310]
+%
+%Input: At: Array of parallel HF components of target nuclei
+%       Bt: Array of perpendicular HF components of target nuclei
+%       Aunw: Array of parallel HF components of unwanted nuclei 
+%       Bunw: Array of perpendicular HF components of unwanted nuclei 
+%       times: unit times of composite sequences of sequential scheme
+%       iters: iterations of each unit of the composite sequences of sequential scheme
+%
+%Output: OUT: A structwith various fields that contains information
+%             about the mixed state
+%
+%--------------------------------------------------------------------------
 
 [~,evecs,evals,PSI_Pure]=reduced_density_matrix_CR_type(At,Bt,Aunw,Bunw,times,iters);
 
