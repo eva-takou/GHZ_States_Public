@@ -1,4 +1,6 @@
 function [cmap]=buildcmap(colors)
+%
+%M Sohrabinia (2023). Build custom colormaps (https://www.mathworks.com/matlabcentral/fileexchange/40318-build-custom-colormaps), MATLAB Central File Exchange. Retrieved October 23, 2023.
 % [cmap]=buildcmap(colors)
 %
 % This function can be used to build your own custom colormaps. Imagine if
