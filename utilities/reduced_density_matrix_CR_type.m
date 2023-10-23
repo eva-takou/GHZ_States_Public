@@ -1,4 +1,8 @@
 function [rho_red_Analy,evecs,evals,PSI_Pure,PSI_0]=reduced_density_matrix_CR_type(At,Bt,Aunw,Bunw,times,iters)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: Oct 23, 2023
+%--------------------------------------------------------------------------
 %Get the reduced density matrix after tracing out unwanted nuclei.
 %Assume the CPMG sequence. For composite, we are composing CPMG sequences
 %of different unit times and iterations.

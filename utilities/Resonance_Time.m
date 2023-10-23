@@ -1,9 +1,14 @@
 function tres = Resonance_Time(k,Nuclear_Indx,wL,A,B,s0,s1)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: Oct 23, 2023
+%--------------------------------------------------------------------------
 %Resonance time.
 %Input: k: index of resonance
 %       INDX: indx of particular nuclear spin (1-27 from Delft)
 %       wL: Larmor frequency
-%       A, B: HF components of 27 nuclei
+%       A, B: Parallel, perpendicular HF components of nuclei
+%       s0,s1: Electron's spin projections
 
 c = 2*pi*1e-3; %Conversion factor to \omega (rad*MHz)
 
