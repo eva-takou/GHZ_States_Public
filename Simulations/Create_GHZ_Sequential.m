@@ -1,5 +1,17 @@
 function OUT=Create_GHZ_Sequential(GHZsize)
-
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: Oct 23, 2023
+%--------------------------------------------------------------------------
+%
+%Script to find optimal entangling gates for creating GHZ states via the sequential
+%scheme, based on arXiv:2302.05580. 
+%--------------------------------------------------------------------------
+%
+%Input: GHZsize: size of GHZ state
+%Output: OUT: A struct with various fields that stores the several optimal
+%             cases together with information about the total evolution.
+%--------------------------------------------------------------------------
 
 %======== Parameters ======================================================
 

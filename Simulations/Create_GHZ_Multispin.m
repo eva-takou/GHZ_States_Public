@@ -1,6 +1,21 @@
 function S=Create_GHZ_Multispin(GHZsize)
-%Script to create GHZM states with the multispin protocol.
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: Oct 23, 2023
+%--------------------------------------------------------------------------
+%
 %GHZsize: Size of the GHZ state (>=4).
+%
+%
+%Script to find optimal entangling gates for creating GHZ states via the
+%multispin scheme, based on arXiv:2302.05580. 
+%--------------------------------------------------------------------------
+%
+%Input: GHZsize: size of GHZ state
+%Output: S: A struct with various fields that stores the several optimal
+%             cases together with information about the total evolution.
+%--------------------------------------------------------------------------
+
 
 if GHZsize==3
    
