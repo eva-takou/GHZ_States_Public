@@ -1,4 +1,11 @@
 function tau=Tangle3(psi)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: Oct 23, 2023
+%--------------------------------------------------------------------------
+%Calculate the 3-tangle of a three-qubit state. 
+%This can be done using the method of Ref:
+%V. Coffman et al, Phys. Rev. A 61, 052306 (2000).
 
 psi = psi/norm(psi);
 
