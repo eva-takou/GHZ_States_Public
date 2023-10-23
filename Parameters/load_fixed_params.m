@@ -1,5 +1,11 @@
 function [s0,s1,wL]=load_fixed_params
-%Script to load the fixed parameters for the simulations in the GHZ paper.
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: Oct 23, 2023
+%
+%
+%Script to load the fixed parameters for the simulations in https://arxiv.org/abs/2302.05580.
+%--------------------------------------------------------------------------
 
 %=== Fixed parameters ===================================================
 s0 = 0;  s1 = -1;                   % Spin projections of NV

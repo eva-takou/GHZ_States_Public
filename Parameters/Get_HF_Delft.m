@@ -1,6 +1,18 @@
 function [A,B]=Get_HF_Delft
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: Oct 23, 2023
+%
 %Get the Hyperfine parameters of the 27 nuclear spin register characterized
-%by the Delft group.
+%by the Taminau's group.
+%
+%--------------------------------------------------------------------------
+%Reference:
+%Abobeih, M.H., Randall, J., Bradley, C.E. et al. 
+%Atomic-scale imaging of a 27-nuclear-spin cluster using a quantum sensor. 
+%Nature 576, 411–415 (2019).
+%--------------------------------------------------------------------------
+
 A=[-20.72,...
    -23.22,...
    -31.25,...
