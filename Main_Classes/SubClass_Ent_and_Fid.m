@@ -1,4 +1,9 @@
 classdef SubClass_Ent_and_Fid
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: Oct 23, 2023
+%--------------------------------------------------------------------------
+
 %This class has the properties: one tangles, Kraus, Fidelity
 %entangling power of unitary (one-tangles, or M-way entanglement).
    

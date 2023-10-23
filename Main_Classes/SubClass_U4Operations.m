@@ -1,4 +1,8 @@
 classdef SubClass_U4Operations < SuperClass_Sequences
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: Oct 23, 2023
+%--------------------------------------------------------------------------
     
 %Note 1: This subclass does operations only on unitaries U(4). It is sort of a 
 %        characterization class for any unitary U. It borrows all the sequences from the
@@ -777,11 +781,12 @@ classdef SubClass_U4Operations < SuperClass_Sequences
                    
                    UB = Q' *U *Q;  m  = UB.'*UB;
                 
-                   G1 = trace(m)^2/(16*det(U)) ;
+                   G1 = (trace(m)^2/(16*det(U))) ;
 
                    G2 = 1/(4*det(U))*(trace(m)^2 - trace(m*m)  );
                     
                    g1=real(G1); g2 = imag(G1); g3=G2;
+                   
                    
                    
                    Gj=[g1,g2,g3];

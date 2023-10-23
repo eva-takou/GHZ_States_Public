@@ -1,4 +1,8 @@
 classdef SuperClass_Sequences  
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: Oct 23, 2023
+%--------------------------------------------------------------------------
 
 %Note 1: The Hamiltonian assumes no nuclear-nuclear interactions for now.
 
@@ -18,7 +22,7 @@ classdef SuperClass_Sequences
     
     
     
-    %                Attributes of properties
+    %Attributes of properties
     %public access: unrestricted access
     %private access: access by a class member only (not subclass) 
     %protected access: access by class or subclasses 
