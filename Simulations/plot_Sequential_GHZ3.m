@@ -1,4 +1,16 @@
 function plot_Sequential_GHZ3(S)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: Oct 23, 2023
+%--------------------------------------------------------------------------
+%
+%Function to plot the optimal GHZ3 cases obtained based on the methods developed in
+%arXiv:2302.05580, for the sequential scheme.
+%--------------------------------------------------------------------------
+%Input: S: a struct with various fields that stores the optimal cases and
+%          information about the total evolution.
+%--------------------------------------------------------------------------
+
 close all;
 
 

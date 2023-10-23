@@ -1,4 +1,13 @@
 function plot_Sequential_GHZ_M
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: Oct 23, 2023
+%--------------------------------------------------------------------------
+%
+%Function to plot the optimal GHZM cases obtained based on the methods developed in
+%arXiv:2302.05580, for the sequential scheme.
+%--------------------------------------------------------------------------
+
 %======================= Colors =========================================
 Magentas={[0.4940 0.1840 0.5560],[147,112,219]/255};
 
