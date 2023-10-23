@@ -1,4 +1,21 @@
 function run_dephasing_surf_plot_sequential
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: Oct 23, 2023
+%--------------------------------------------------------------------------
+%Function to plot the M-tangling power when the electron undergoes
+%dephasing [see Ref. arXiv:2302.05580], and for the sequential protocol.
+%
+%The dephasing channel assumes the Kraus operators: 
+%
+%K0 = sqrt(lambda0) [exp(i*theta*t) 0]
+%                   [0   exp(-i*theta*t)]
+%
+%K1 = sqrt(lambda1) [exp(-i*theta*t) 0]
+%                   [0   exp(i*theta*t)]
+%
+%1/theta [in mus] describes time-scale of dephasing. It holds that
+%lambda0+lambda1=1. [Kraus operators from Ref. https://dx.doi.org/10.1103/PhysRevA.106.022414]
 
 %============ Parameters ================================================
 [s0,s1,wL]   = load_fixed_params;
