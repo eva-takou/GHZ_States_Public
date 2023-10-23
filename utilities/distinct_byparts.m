@@ -1,8 +1,14 @@
 function [byparts]=distinct_byparts(n)
-%Input: # of total 2-level systems in the primal system
-%Output: a cell array from which cell element we need to take
-%the numbers columnwise. This can then be inputed into some
-%partial trace operation.
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: Oct 23, 2023
+%--------------------------------------------------------------------------
+%
+%Generate distinct bypartitions for order n.
+%e.g. if n=3 we can have 1|23, 2|13 and 3|12 
+%
+%Output: byparts: a cell array from which we need to access the partitions
+%        columnwise.
 
 b=1:n;
 byparts=cell(1,floor(n/2));
