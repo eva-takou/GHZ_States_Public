@@ -1,4 +1,19 @@
 function uncertainty_HF_parameters_sequential(p)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: Oct 23, 2023
+%--------------------------------------------------------------------------
+%
+%Script to add uncertainty in HF parameters by shifting the HF components
+%of target nuclei by constant p value. This script compares the target subspace M-tangling
+%power obtained by no uncertainty in HF parameters, with the one with
+%certain HF parameters. It tests the sequential scheme, see
+%arXiv:2302.05580.
+%
+%Input: p amount to shift the HF parameters (units assumed to be kHz)
+%--------------------------------------------------------------------------
+
+
 close all;
 
 GHZsizeMax=6;
