@@ -1,7 +1,7 @@
 classdef SubClass_Ent_and_Fid
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: Oct 23, 2023
+%Last modified: Oct 24, 2023
 %--------------------------------------------------------------------------
 
 %This class has the properties: one tangles, Kraus, Fidelity
@@ -21,704 +21,207 @@ classdef SubClass_Ent_and_Fid
       
   end
   
-    properties (Constant, Hidden)
+  
+  properties (Constant, Hidden)
        
         Q=1/sqrt(2)*[1  0  0  1i ; 
              0 1i  1  0  ;
              0 1i -1  0  ;
              1  0  0  -1i];
-          
-        
-    end
   
+  end
     
   methods (Static)  
          
-        function [Out]=GKF(U,U0,Nnuc,Target_Spins,option)
-        %Output: Kraus operators corresponding to environmental spins.
-        %        Gate fidelity due to cross-talk i.e., deviation of U
-        %        from U0 due to presence of unwanted nuclei.
-        %Input:  U: Total gate U. 
-        %        U0: Target gate (of target subspace)
-        %        Target_Spins: Ordered indices of target spins 
-        %        Option: "Only_Kraus" or "And_Fid" to output only 
-        %        Kraus operators or gate fidelity as well.
-        
-            %Give two target gates U0 and two m indices.
-            
-            %U0{1} is the target for single spin + electron.
-            %U0{2} is the target for the "target spins"+ electron.
-            
-            %First make sure that arguments were passed correctly.
-            
-            if isempty(U0{2}) && ~isempty(Target_Spins)
-                error('You provided target spins but not a target gate for the calculation of the fidelity.')
-            end
-            
-            if ~isempty(U0{2}) && isempty(Target_Spins)
-                error('You provided target gate for many spins, but not the indices of the target spins.')
-            end
-            
-            if ~strcmp(option,"And_Fid") && ~strcmp(option,"Only_Kraus")
-                error('Option can be either "And_Fid" or "Only_Kraus".')
-            end
-            
-            %Part 1: get Kraus for the evolution of electron + single
-            %spins.
-            
-            if isempty(Target_Spins)
-                   [ww,ss]=size(U0{1});
-                if ss~=4 || ww~=4
-                  error('The input U0{1} is not 4x4.')   
-                end
-                
-            end
-            
-            Nenvir = Nnuc-1;
-            dim_E  = 2^Nenvir;
-            id_envir = eye(dim_E);  
-            ket00 = zeros(dim_E,1); %column vector
-            ket00(1) = 1;   %assume the state |0000000000.....>
-            e0= kron(eye(4),ket00); 
-            
-            %P2 switches the position between 2 nuclear spins.
-            %It is a permutation matrix.
-            %Repeatedly we switch the position of the i-th spin
-            %To find the Kraus of the i-th spin with the electron.
-            
-            
-            P2 = [1  0  0  0 ;...
-                  0  0  1  0 ;...
-                  0  1  0  0 ;...
-                  0  0  0  1 ];
-
-                %Kraus of 1st spin.
-                Ek1 = zeros(4,4,dim_E);
-                
-                for ii=1:dim_E
-                    
-                    ek = kron(eye(4),id_envir(ii,:));
-                    Ek1(:,:,ii) = ek*U*e0;
-                    
-                end            
-                
-                Identities = repmat({eye(2)},[1 1 Nnuc-1]);
-                Identities{1}=P2;                
-                
-            %Kraus of 2nd spin till last.
-            
-            Ek_ALL = zeros(4,4,Nnuc,dim_E);
-            
-            for Ni=2:Nnuc
-
-                if Ni==2
-                    temp=Identities;
-                    P = superkron(temp);
-                    
-                else
-
-                    for ii=1:Ni-1
-
-                        temp  = Identities;
-                        temp = circshift(temp,(Ni-1)-1); %moves P2 by some positions to the right
-                        P=superkron(temp);
-
-                    if isequal(temp{1},P2)
-
-                        continue %go to the next for loop
-
-                    else
-                        for jj=1:Ni-2
-                        
-                            temp = circshift(temp,-1);
-                            P = superkron(temp)*P;
-                            
-                        end
-
-                    end
-
-                    end
-                end
-
-                P = kron(eye(2),P);
-
-                    for ll=1:dim_E
-                    ek = kron(eye(4),id_envir(ll,:));
-
-                    Ek_ALL(:,:,Ni,ll) = ek*P*U*P'*e0; %Note this starts from the 2nd position
-                    end
-
-            end          
-            
-            for ll=1:dim_E
-            
-                Ek_ALL(:,:,1,ll)= Ek1(:,:,ll);
-                
-            end
-            
-            %The above are the Kraus when we consider single spin + electron.
-            
-            %Whether to output Kraus only or Infidelity as well.
-            switch option
-                
-                case "Only_Kraus"
-                    Out.Kraus=Ek_ALL;
-                    
-                case "And_Fid"
-                    
-                   Infid=zeros(1,Nnuc);
-                   m=4;
-                    for jj=1:Nnuc
-                        
-                        expr1=0;   expr2=0;  
-                        
-                        for ii=1:dim_E
-                        
-                        Mk=U0{1}'*Ek_ALL(:,:,jj,ii);  
-                        
-
-                        expr1= expr1 + Mk'*Mk;
-                        expr2= expr2 + abs(trace(Mk))^2;
-
-                        end
-                        
-                        Fid=1/(m*(m+1))* (   trace(expr1) + expr2     );
-                        Infid(jj) = 1-Fid;
-                    end           
-           
-                    Out.Kraus=Ek_ALL;
-                    Out.Infid = Infid;
-                    
-            end
-            
-            
-            %Now, we might also want to find Kraus and Fid, for some
-            %particular spins. (Might want to keep more than single spin +
-            %electron).
-            
-            %Give number of subsystems we want to find Kraus and Fid.
-            
-            
-            if ~isempty(Target_Spins)
-            
-            %Need to rearrange unwanted spins at the last position
-            %Use setxor, to find which spins are the unwanted.
-            
-            
-            Ntarget = numel(Target_Spins);
-            dim_TE = 2^(Ntarget+1); %dimension of target+electron
-            All_Spins = 1 : Nnuc;
-            
-            Rest_Spins = setxor(Target_Spins,All_Spins); %This gives us the position of unwanted spins
-            Rest_Spins = sort(Rest_Spins,'descend');  %Rest = Unwanted
-            
-            
-            Nrest = Nnuc - Ntarget;
-            dim_E = 2^Nrest;
-            id_envir = eye(dim_E);
-            
-            ket00 = zeros(dim_E,1); %column vector
-            ket00(1) = 1;   %assume the state |0000000000.....>
-            e0= kron(eye(dim_TE),ket00); 
-             
-            %To push the i-th spin to the end
-            %Apply P2 to the ith position
-            %The rest will be identities
-            %Keep on applying P2 till it is pushed all the
-            %way to the last element of Identities
-            
-            %We choose first the spins that are already close
-            %to the end
-            
-            %Special case: if all the target spins are in the 1st positions
-            %there is no need for re-ordering and then projecting.
-            
-            
-            if Ntarget<2 
-                error('Need to have at least 2 target spins.')
-            end
-            
-           
-            
-            
-            Identities = repmat({eye(2)},[1 1 Nnuc-1]);
-            
-            %Could happen that I give Rest_Spins=end.
-            %So if this is the case skip everything
-            
-            Unew = U;
-            
-            for ii = 1 : length(Rest_Spins)
-                
-                temp = Identities;
-                
-                if Rest_Spins(ii)==All_Spins(end)
-                    break
-                    
-                end
-                temp{Rest_Spins(ii)}=P2; %Put P2 to the i-th position.
-                P=superkron(temp);
-                
-                
-                for jj = 1 : Nnuc - Rest_Spins(ii)
-                    
-                    if isequal(temp{end},P2)
-                        
-                        break %it breaks the inner loop (stops j) & 
-                        %continues running the same i-th loop until we go to next i
-                    else
-                    temp = circshift(temp,1); %move P2 to the right
-                    P = superkron(temp)*P;
-                    end
-                    
-                end
-                
-                %do a check here:
-                if ~isequal(temp{end},P2)
-                    error('The last entry of the list temp is not P2!')
-                end
-                
-                P = kron(eye(2),P);
-                Unew=P*Unew*P'; %I think it is now fine. Then, we just need to "trace out" the unwanted spins
-                
-                
-                
-            end
-            
-            
-            
-            %Now trace out the unwanted spins:
-            
-            Ek_Target_Spins = zeros(dim_TE,dim_TE,dim_E);
-             for ll=1:dim_E
-                    ek = kron(eye(dim_TE),id_envir(ll,:));
-                    Ek_Target_Spins(:,:,ll) = ek*Unew*e0; 
-             end
-            
-            
-            %Finally, get the fidelity as well:
-            
-                   
-                   m=dim_TE;
-                   [ww,ss]=size(U0{2});
-                   
-                   if ww~=dim_TE || ss~=dim_TE
-                       error('U0{2} is not 2^(Ntarget+1)x2^(Ntarget+1)')
-                   end
-                        expr1=0;   expr2=0;   
-                        for ll=1:dim_E
-                        
-                        Mk=U0{2}'*Ek_Target_Spins(:,:,ll);  
-                        
-
-                        expr1= expr1 + Mk'*Mk;
-                        expr2= expr2 + abs(trace(Mk))^2;
-
-                        
-                        
-                        end
-                        
-                        Fid=1/(m*(m+1))* (   trace(expr1) + expr2     );
-                        Infid_MultiQ = 1-Fid;
-                              
-                        Out.Kraus_MultiQ = Ek_Target_Spins;
-                        Out.Infid_MultiQ = Infid_MultiQ;
-             
-            
-            
-            else
-                return
-                
-            end
-            
-            
-            
-            
-            
-            
-                
-        end
-
-        function [Out]=GKFnew(U,U0,Nnuc,Target_Spins,option)
-            
-            %Give two target gates U0 and two m indices.
-            
-            %U0{1} is the target for single spin + electron.
-            %U0{2} is the target for the "target spins"+ electron.
-            
-            %First make sure that arguments were passed correctly.
-            
-            if isempty(U0{2}) && ~isempty(Target_Spins)
-                error('You provided target spins but not a target gate for the calculation of the fidelity.')
-            end
-            
-            if ~isempty(U0{2}) && isempty(Target_Spins)
-                error('You provided target gate for many spins, but not the indices of the target spins.')
-            end
-            
-            if ~strcmp(option,"And_Fid") && ~strcmp(option,"Only_Kraus")
-                error('Option can be either "And_Fid" or "Only_Kraus".')
-            end
-            
-            %Part 1: get Kraus for the evolution of electron + single
-            %spins.
-            
-            if isempty(Target_Spins)
-                   [ww,ss]=size(U0{1});
-                if ss~=4 || ww~=4
-                  error('The input U0{1} is not 4x4.')   
-                end
-                
-            end
-            
-            
-            Nenvir = Nnuc-1;
-            dim_E  = 2^Nenvir;
-            id_envir = eye(dim_E);  
-            ket00 = zeros(dim_E,1); %column vector
-            ket00(1) = 1;   %assume the state |0000000000.....>
-            e0= kron(eye(4),ket00); 
-            
-            %P2 switches the position between 2 nuclear spins.
-            %It is a permutation matrix.
-            %Repeatedly we switch the position of the i-th spin
-            %To find the Kraus of the i-th spin with the electron.
-            
-            
-            P2 = [1  0  0  0 ;...
-                  0  0  1  0 ;...
-                  0  1  0  0 ;...
-                  0  0  0  1 ];
-
-                %Kraus of 1st spin.
-                
-                Ek1 = zeros(4,4,dim_E);
-                
-                for ii=1:dim_E
-                    ek = kron(eye(4),id_envir(ii,:));
-                    Ek1(:,:,ii) = ek*U*e0;
-                end            
-                
-                Identities = repmat({eye(2)},[1 1 Nnuc-1]);
-                Identities{1}=P2;                
-                
-            %Kraus of 2nd spin till last.
-            
-            Ek_ALL = zeros(4,4,Nnuc,dim_E);
-            
-            for Ni=2:Nnuc
-
-                if Ni==2
-                    temp=Identities;
-                    P = superkron(temp);
-                    
-                else
-
-                    for ii=1:Ni-1
-
-                        temp  = Identities;
-                        temp = circshift(temp,(Ni-1)-1); %moves P2 by some positions to the right
-                        P=superkron(temp);
-
-                    if isequal(temp{1},P2)
-
-                        continue %go to the next for loop
-
-                    else
-                        for jj=1:Ni-2
-                        temp = circshift(temp,-1);
-                        P = superkron(temp)*P;
-                        end
-
-                    end
-
-
-                    end
-                end
-
-                P = kron(eye(2),P);
-
-                    for ll=1:dim_E
-                    ek = kron(eye(4),id_envir(ll,:));
-
-                    Ek_ALL(:,:,Ni,ll) = ek*P*U*P'*e0; %Note this starts from the 2nd position
-                    end
-
-
-            end          
-            
-            
-            for ll=1:dim_E
-            Ek_ALL(:,:,1,ll)= Ek1(:,:,ll);
-            end
-            
-            %The above are the Kraus when we consider single spin + electron.
-            
-            
-            %Whether to output Kraus only or Infidelity as well.
-            switch option
-                
-                case "Only_Kraus"
-                    Out.Kraus=Ek_ALL;
-                    
-                case "And_Fid"
-                    
-                    
-                   
-                   Infid=zeros(1,Nnuc);
-                   m=4;
-                    for jj=1:Nnuc
-                        
-                        expr1=0;   expr2=0;  
-                        
-                        for ii=1:dim_E
-                        
-                        Mk=U0{1}'*Ek_ALL(:,:,jj,ii);  
-                        
-
-                        expr1= expr1 + Mk'*Mk;
-                        expr2= expr2 + abs(trace(Mk))^2;
-
-                        
-                        
-                        end
-                        
-                        Fid=1/(m*(m+1))* (   trace(expr1) + expr2     );
-                        Infid(jj) = 1-Fid;
-                    end           
-           
-                    
+      
+      function Ek=Get_Kraus(U,Nnuc,Target_Spins)
           
-                    
-                    Out.Kraus=Ek_ALL;
-                    Out.Infid = Infid;
-                    
-                    
-                    
-            end
-            
-            
-            %Now, we might also want to find Kraus and Fid, for some
-            %particular spins. (Might want to keep more than single spin +
-            %electron).
-            
-            %Give number of subsystems we want to find Kraus and Fid.
-            
-            
-            if ~isempty(Target_Spins)
-            
-            %Need to rearrange unwanted spins at the last position
-            %Use setxor, to find which spins are the unwanted.
-            
-            
-            Ntarget = numel(Target_Spins);
-            dim_TE = 2^(Ntarget+1); %dimension of target+electron
-            All_Spins = 1 : Nnuc;
-            
-            Rest_Spins = setxor(Target_Spins,All_Spins); %This gives us the position of unwanted spins
-            Rest_Spins = sort(Rest_Spins,'descend');  %Rest = Unwanted
-            
-            
-            Nrest = Nnuc - Ntarget;
-            dim_E = 2^Nrest;
-            id_envir = eye(dim_E);
-            
-            ket00 = zeros(dim_E,1); %column vector
-            ket00(1) = 1;   %assume the state |0000000000.....>
-            e0= kron(eye(dim_TE),ket00); 
-             
-            %To push the i-th spin to the end
-            %Apply P2 to the ith position
-            %The rest will be identities
-            %Keep on applying P2 till it is pushed all the
-            %way to the last element of Identities
-            
-            %We choose first the spins that are already close
-            %to the end
-            
-            %Special case: if all the target spins are in the 1st positions
-            %there is no need for re-ordering and then projecting.
-            
-            
-            if Ntarget<2 
-                error('Need to have at least 2 target spins.')
-            end
-            
-           
-            
-            
-            Identities = repmat({eye(2)},[1 1 Nnuc-1]);
-            
-            %Could happen that I give Rest_Spins=end.
-            %So if this is the case skip everything
-            
-            Unew = U;
-            
-            for ii = 1 : length(Rest_Spins)
-                
-                temp = Identities;
-                
-                if Rest_Spins(ii)==All_Spins(end)
-                    break
-                    
-                end
-                temp{Rest_Spins(ii)}=P2; %Put P2 to the i-th position.
-                P=superkron(temp);
-                
-                
-                for jj = 1 : Nnuc - Rest_Spins(ii)
-                    
-                    if isequal(temp{end},P2)
-                        
-                        break %it breaks the inner loop (stops j) & 
-                        %continues running the same i-th loop until we go to next i
-                    else
-                    temp = circshift(temp,1); %move P2 to the right
-                    P = superkron(temp)*P;
-                    end
-                    
-                end
-                
-                %do a check here:
-                if ~isequal(temp{end},P2)
-                    error('The last entry of the list temp is not P2!')
-                end
-                
-                P = kron(eye(2),P);
-                Unew=P*Unew*P'; %I think it is now fine. Then, we just need to "trace out" the unwanted spins
-                
-                
-                
-            end
-            
-            
-            
-            %Now trace out the unwanted spins:
-            
-            Ek_Target_Spins = zeros(dim_TE,dim_TE,dim_E);
-             for ll=1:dim_E
-                    ek = kron(eye(dim_TE),id_envir(ll,:));
-                    Ek_Target_Spins(:,:,ll) = ek*Unew*e0; 
-             end
-            
-            
-            %Finally, get the fidelity as well:
-            
-                   
-                   m=dim_TE;
-                   [ww,ss]=size(U0{2});
-                   
-                   if ww~=dim_TE || ss~=dim_TE
-                       error('U0{2} is not 2^(Ntarget+1)x2^(Ntarget+1)')
-                   end
-                        expr1=0;   expr2=0;   
-                        for ll=1:dim_E
-                        
-                        Mk=U0{2}'*Ek_Target_Spins(:,:,ll);  
-                        
-
-                        expr1= expr1 + Mk'*Mk;
-                        expr2= expr2 + abs(trace(Mk))^2;
-
-                        
-                        
-                        end
-                        
-                        Fid=1/(m*(m+1))* (   trace(expr1) + expr2     );
-                        Infid_MultiQ = 1-Fid;
-                              
-                        Out.Kraus_MultiQ = Ek_Target_Spins;
-                        Out.Infid_MultiQ = Infid_MultiQ;
-             
-            
-            
-            else
-                return
-                
-            end
-            
-            
-            
-            
-            
-            
-                
-        end
-        
-        function [Out]=Gate_Infid(Nnuc,Ntarget,phi0,phi1,n0,n1)
-        %Input: Nnuc: total # of nuclear spins
-        %       Ntarget: # of nuclear spins of target subspace
-        %       phi0,phi1: Rot angles of unwanted nuclei
-        %       n0,n1: Rot axes of unwanted nuclei
-        %Output: Gate infidelity.
-        
-        %Analytical evaluation of gate infidelity which expresses deviation
-        %of target gate (of target subsoace) from ideal due to the presence 
-        %of unwanted nuclei.
-        
-         dTarget = 2^(Ntarget+1);   
-         Nunw    = Nnuc-Ntarget;
+          %Target_Spins: Subsystem indices for nuclear spins to keep.
+          
+          if any(Target_Spins>Nnuc)
+              
+              error('The nuclear spin indices exceed the # of total nuclei.')
+              
+          end
+          
+          K    = length(Target_Spins); %# of subsystems in target nuclear subspace
+          Kall = K+1;                  %# of susbystems in target subspace (including electron)
+          
+          %------- Parameters for the environment -------------------------
+          
+          Nenv      = Nnuc-K;                   %nuclei in environment
+          dim_E     = 2^Nenv;                   %dimension of environment
+          id_E      = eye(dim_E);               %Identity
+          ket0_E    = zeros(dim_E,1);          
+          ket0_E(1) = 1;                        %initial state of environment
+          e0_E      = kron(eye(2^Kall),ket0_E); %Promote to total space
+          
+          %--- Bring all target spins to first positions ------------------
+          
+          Target_Spins = sort(Target_Spins)+1; %Add 1 because 1st subsystem is electron
          
-         if Nunw~=length(phi0)
-             
-             error('Inconsistent # of unwanted spins and rot angles argument.')
-             
-         end
-         
-        %NumberOfKet ranges from 0 till 2^{L-K}-1 where L#of all nuclei
-        %                                               K#of target ones
-        
-        %loop through all these combinations, read the m-th bit
-        %and if the m-th position is 0, we are supposed to get
-        %the factor cos(phi_0/2)-1i*nz0*sin(phi_0/2) for when the electron
-        %is in 0 (and similarly for 1).
-        %if the m-th position is 1 then we get the other coefficient
-        
-        expr=0;
-        
-        for NumberOfKet = 0:2^(Nunw)-1 
-        
-            CurrentKet=dec2bin(NumberOfKet,Nunw)-'0';
-            
-            %To get the logical indices do this:
-            
-            Nuc_in0 = CurrentKet==0;
-            Nuc_in1 = CurrentKet==1;
-            
-            ang0_el0    = phi0(Nuc_in0); ang0_el1    = phi1(Nuc_in0);
-            ang1_el0    = phi0(Nuc_in1); ang1_el1    = phi1(Nuc_in1);
+          if any(Target_Spins>Kall) %Need to permute
 
-            %for nuclei in |0>
-            f0_ThisKraus_el0 = prod(cos(ang0_el0/2)-1i*(n0(Nuc_in0,3).').*sin(ang0_el0/2));
-            f0_ThisKraus_el1 = prod(cos(ang0_el1/2)-1i*(n1(Nuc_in0,3).').*sin(ang0_el1/2));
-            
-            %for nuclei in |1>
-            f1_ThisKraus_el0 = prod((-1i)*sin(ang1_el0/2).*(n0(Nuc_in1,1)+1i*n0(Nuc_in1,2)).');
-            f1_ThisKraus_el1 = prod((-1i)*sin(ang1_el1/2).*(n1(Nuc_in1,1)+1i*n1(Nuc_in1,2)).');
+              for jj=2:length(Target_Spins)+1
+
+                  if Target_Spins(jj-1)~=jj
+
+                      SWAP = ArbDimSWAP(jj,Target_Spins(jj-1),Nnuc+1); 
+                      U    = SWAP*U*SWAP'; %Permute to jj-th position
+
+                  end
+
+              end              
+              
+          end
+          
+          %"Trace-out" all the final subsystems
+          
+          Ek = zeros(2^(Kall),2^(Kall),dim_E);
+          
+          for k=1:dim_E
+              
+              ek = kron(eye(2^(Kall)),id_E(k,:)); %For systems we do not trace out, we need to put Id.
+              Ek(:,:,k)=ek*U*e0_E;
+              
+          end
+          
+          
+          %Check completeness of Kraus:
+          compl=0;
+          
+          for k1=1:dim_E
+              
+              
+              compl = compl + Ek(:,:,k1)'*Ek(:,:,k1);
+                  
+              
+          end
+          
+          imag_compl = imag(compl);
+          
+          if all(imag_compl<1e-9)
+              
+              compl=real(compl);
+              
+          end
+          
+          if norm(compl-eye(2^(Kall)))>1e-9
+              
+              error('Completeness is not satisfied')
+              
+          end
+          
+          
+      end
+      
+      function Infid=Get_Infid_From_Kraus(U0,Ek,Target_Spins)
+          
+          Kall = length(Target_Spins)+1;
+          
+          if log2(length(U0))~=Kall
+              
+             error('Dimension of target gate does not match the # of target susbystems.') 
              
-            
-            if  isempty(ang0_el0) && ~isempty(ang1_el0) %all nuclei in |1>
-                 
-                f0_ThisKraus_el0=1;
-                f0_ThisKraus_el1=1;
-                
-            elseif ~isempty(ang0_el0) && isempty(ang1_el0) %all nuclei in |0>
-                
-                f1_ThisKraus_el0=1;
-                f1_ThisKraus_el1=1;
-                
-            end
-            
-             expr = expr + abs(f0_ThisKraus_el0*f1_ThisKraus_el0+...
-                               f0_ThisKraus_el1*f1_ThisKraus_el1)^2;
+          end
+          
+          expr1=0;
+          expr2=0;
+          
+          for k=1:size(Ek,3)
              
-        end
+              Mk=U0'*Ek(:,:,k);
+              
+              expr1=expr1+Mk'*Mk;
+              expr2=expr2+abs(trace(Mk))^2;
+              
+              
+          end
+          
+          m=2^Kall;
+          
+          Infid = 1 - 1/(m*(m+1))*(trace(expr1)+expr2);
+          
+          
+          
+          
+          
+      end
         
-       
-        F          = 1/(dTarget+1)*(1+2^(Ntarget-1)*expr); 
-        Out.Infid  = 1-F;   
-       
+    function [Out]=Gate_Infid(Nnuc,Ntarget,phi0,phi1,n0,n1)
+    %Input: Nnuc: total # of nuclear spins
+    %       Ntarget: # of nuclear spins of target subspace
+    %       phi0,phi1: Rot angles of unwanted nuclei
+    %       n0,n1: Rot axes of unwanted nuclei
+    %Output: Gate infidelity.
+
+    %Analytical evaluation of gate infidelity which expresses deviation
+    %of target gate (of target subsoace) from ideal due to the presence 
+    %of unwanted nuclei.
+
+     dTarget = 2^(Ntarget+1);   
+     Nunw    = Nnuc-Ntarget;
+
+     if Nunw~=length(phi0)
+
+         error('Inconsistent # of unwanted spins and rot angles argument.')
+
+     end
+
+    %NumberOfKet ranges from 0 till 2^{L-K}-1 where L#of all nuclei
+    %                                               K#of target ones
+
+    %loop through all these combinations, read the m-th bit
+    %and if the m-th position is 0, we are supposed to get
+    %the factor cos(phi_0/2)-1i*nz0*sin(phi_0/2) for when the electron
+    %is in 0 (and similarly for 1).
+    %if the m-th position is 1 then we get the other coefficient
+
+    expr=0;
+
+    for NumberOfKet = 0:2^(Nunw)-1 
+
+        CurrentKet=dec2bin(NumberOfKet,Nunw)-'0';
+
+        %To get the logical indices do this:
+
+        Nuc_in0 = CurrentKet==0;
+        Nuc_in1 = CurrentKet==1;
+
+        ang0_el0    = phi0(Nuc_in0); ang0_el1    = phi1(Nuc_in0);
+        ang1_el0    = phi0(Nuc_in1); ang1_el1    = phi1(Nuc_in1);
+
+        %for nuclei in |0>
+        f0_ThisKraus_el0 = prod(cos(ang0_el0/2)-1i*(n0(Nuc_in0,3).').*sin(ang0_el0/2));
+        f0_ThisKraus_el1 = prod(cos(ang0_el1/2)-1i*(n1(Nuc_in0,3).').*sin(ang0_el1/2));
+
+        %for nuclei in |1>
+        f1_ThisKraus_el0 = prod((-1i)*sin(ang1_el0/2).*(n0(Nuc_in1,1)+1i*n0(Nuc_in1,2)).');
+        f1_ThisKraus_el1 = prod((-1i)*sin(ang1_el1/2).*(n1(Nuc_in1,1)+1i*n1(Nuc_in1,2)).');
+
+
+        if  isempty(ang0_el0) && ~isempty(ang1_el0) %all nuclei in |1>
+
+            f0_ThisKraus_el0=1;
+            f0_ThisKraus_el1=1;
+
+        elseif ~isempty(ang0_el0) && isempty(ang1_el0) %all nuclei in |0>
+
+            f1_ThisKraus_el0=1;
+            f1_ThisKraus_el1=1;
+
         end
+
+         expr = expr + abs(f0_ThisKraus_el0*f1_ThisKraus_el0+...
+                           f0_ThisKraus_el1*f1_ThisKraus_el1)^2;
+
+    end
+
+
+    F          = 1/(dTarget+1)*(1+2^(Ntarget-1)*expr); 
+    Out.Infid  = 1-F;   
+
+    end
         
         
   end
@@ -1498,7 +1001,9 @@ classdef SubClass_Ent_and_Fid
       
       function obj=one_tangles_General_U_byparts(obj)
       %To calculate the one-tangles of general U, based on the partition
-      %method of the paper on multipartite entanglement.
+      %methods of Ref: T. Linowski, G. Rajchel-Mieldzioć, and K. Życzkowski,
+      %Entangling Power of Multipartite Unitary Gates, J. Phys. A
+      %53, 125303 (2020).
       
           U  = obj.Uval;
           n  = log(size(U,2))/log(2);
