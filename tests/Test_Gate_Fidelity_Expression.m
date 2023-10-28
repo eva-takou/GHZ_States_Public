@@ -1,3 +1,9 @@
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: Oct 27, 2023
+%--------------------------------------------------------------------------
+%% Define randomly some target and unwanted spins, and get the evolution of unwanted spins
+
 clear;
 clc;
 close all;
@@ -45,7 +51,7 @@ Infid1=temp.Gate_Infid(Nnuc,Ntarget,phi0u,phi1u,n0u,n1u).Infid;
 
 temp=SuperClass_Sequences(wL,At,Bt,s0,s1,length(At),1,N);
 temp=temp.CPMG(t);
-U0=temp.Uevol;
+U0=temp.Uevol; %Target gate is evolution of only target subspace
 
 
 
@@ -53,7 +59,7 @@ U0=temp.Uevol;
 
 temp=SuperClass_Sequences(wL,A,B,s0,s1,Nnuc,1,N);
 temp=temp.CPMG(t);
-U=temp.Uevol;
+U=temp.Uevol; %Full evolution
 
 temp=SubClass_Ent_and_Fid;
 
@@ -63,7 +69,7 @@ Ek=temp.Get_Kraus(U,Nnuc,Target);
 Infid_Alt=temp.Get_Infid_From_Kraus(U0,Ek,Target)
 
 
-abs(Infid_Alt-Infid1)
+abs(Infid_Alt-Infid1) %Compare the gate errors from analytical/purely numerical evaluation
 
 
 
