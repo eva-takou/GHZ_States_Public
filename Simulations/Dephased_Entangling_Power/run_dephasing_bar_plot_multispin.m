@@ -1,7 +1,7 @@
 function run_dephasing_bar_plot_multispin(lambda0)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: Oct 23, 2023
+%Last modified: Oct 28, 2023
 %--------------------------------------------------------------------------
 %
 %Function to plot the M-tangling power when the electron undergoes
