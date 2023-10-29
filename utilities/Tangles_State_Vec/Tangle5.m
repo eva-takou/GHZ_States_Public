@@ -1,12 +1,18 @@
 function tau=Tangle5(psi)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: Oct 23, 2023
+%Last modified: Oct 29, 2023
 %--------------------------------------------------------------------------
 %Calculate the 5-tangle of a five-qubit state. 
 %This can be done using the method of Ref:
 %D. Li, The n-tangle of odd n qubits, Quantum Inf. Process. qq, 481–492 (2012).
 %--------------------------------------------------------------------------
+
+if log2(length(psi))~=5
+    
+    error('The input state is not a three-qubit state.')
+    
+end
 
 temp_1=0; temp_2=0; temp_3=0; temp_4=0;  temp_5=0;
 

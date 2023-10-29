@@ -1,7 +1,7 @@
 function tau=TangleEven(psi)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: Oct 23, 2023
+%Last modified: Oct 29, 2023
 %--------------------------------------------------------------------------
 %Calculate the M-tangle of any state with even # of qubits.
 %This can be done using the method of Ref:
@@ -10,6 +10,12 @@ function tau=TangleEven(psi)
 
 L = length(psi);
 L = log2(L); 
+
+if (-1)^L~=1
+   
+    error('The input state does not correspond to an even # of qubits.')
+    
+end
 
 psi = psi/norm(psi);     
 
