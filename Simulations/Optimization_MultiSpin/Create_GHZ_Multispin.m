@@ -1,7 +1,7 @@
 function S=Create_GHZ_Multispin(GHZsize)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: Oct 28, 2023
+%Last modified: Oct 29, 2023
 %--------------------------------------------------------------------------
 %
 %GHZsize: Size of the GHZ state (>=4).
@@ -16,12 +16,6 @@ function S=Create_GHZ_Multispin(GHZsize)
 %             cases together with information about the total evolution.
 %--------------------------------------------------------------------------
 
-
-if GHZsize==3
-   
-    %error('This script is for generation of GHZ_M states with M>3.')
-
-end
 
 %============= Set the basic parameters ====================================
 [s0,s1,wL] = load_fixed_params;  % Electron's spin projections, and nuclear larmor freq
