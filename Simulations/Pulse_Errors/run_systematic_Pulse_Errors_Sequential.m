@@ -1,7 +1,7 @@
 function run_systematic_Pulse_Errors_Sequential(pulse_error)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: Oct 23, 2023
+%Last modified: Oct 28, 2023
 %--------------------------------------------------------------------------
 %
 %Scirpt to add pulse errors for the Rx pulses and find the effect on the M-tangling power
@@ -21,7 +21,7 @@ close all
 LightBlue={[178,223,238]/255,[135,206,250]/255,[162,181,205]/255,[102,139,139]/255};
 
 %============ Parameters ================================================
-path        = '/Users/evatakou/Documents/MATLAB/Defect_Nuclear_GHZ_states/GHZ_states_Preparation/Simulations/GHZ_Data_of_Sequential_NEW/GHZ4_Sequential.mat';
+path        = '/Users/evatakou/Documents/MATLAB/GHZ_States_Public/Simulations/GHZ_Data_of_Sequential_FINAL/GHZ4_Sequential.mat';
 load(path,"OUT");
 [s0,s1,wL]  = load_fixed_params;
 k           = 1;
@@ -60,7 +60,7 @@ for jj=1:cases
     temp             = SubClass_Ent_and_Fid;
     temp.Uval        = U;
     temp             = temp.MWayEp;
-    epM_XY2_err(jj) = real(temp.epM_uni/pref);
+    epM_XY2_err(jj)  = real(temp.epM_uni/pref);
   
     %============== CPMG ideal ===========================================
     temp = SuperClass_Sequences(wL,At,Bt,s0,s1,Nnuc,k,1);

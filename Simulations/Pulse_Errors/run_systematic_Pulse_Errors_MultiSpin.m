@@ -1,7 +1,7 @@
 function run_systematic_Pulse_Errors_MultiSpin(pulse_error)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: Oct 23, 2023
+%Last modified: Oct 28, 2023
 %--------------------------------------------------------------------------
 %
 %Scirpt to add pulse errors for the Rx pulses and find the effect on the M-tangling power
@@ -23,7 +23,7 @@ LightBlue={[178,223,238]/255,[135,206,250]/255,[162,181,205]/255,[102,139,139]/2
 
 %============ Parameters ================================================
 
-path        = '/Users/evatakou/Documents/MATLAB/Defect_Nuclear_GHZ_states/GHZ_states_Preparation/Simulations/GHZ_Data_of_MultiSpin_NEW/GHZ4_Multispin.mat';
+path        = '/Users/evatakou/Documents/MATLAB/GHZ_States_Public/Simulations/GHZ_Data_of_MultiSpin_NEW/GHZ4_Multispin.mat';
 load(path,"OUT");
 [s0,s1,wL]  = load_fixed_params;
 k           = 1;
