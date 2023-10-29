@@ -53,7 +53,7 @@ d=2;
 clc
 
 temp     = SubClass_Ent_and_Fid;
-temp     = temp.dephased_epM_CR_Corr(n0,n1,phi0,phi1,l0,l1,theta,t,N);
+temp     = temp.dephased_epM_CR(n0,n1,phi0,phi1,l0,l1,theta,t,N);
 epM      = temp.epM_dephased/(d/(d+1))^M
 
 %%
