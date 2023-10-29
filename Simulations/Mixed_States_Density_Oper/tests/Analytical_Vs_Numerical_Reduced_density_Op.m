@@ -1,10 +1,10 @@
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: Oct 23, 2023
+%Last modified: Oct 29, 2023
 %--------------------------------------------------------------------------
 
 %%
-path = '/Users/evatakou/Documents/MATLAB/Defect_Nuclear_GHZ_states/GHZ_states_Preparation/Simulations/GHZ_Data_of_Sequential_NEW/GHZ3_Sequential.mat';
+path = '/Users/evatakou/Documents/MATLAB/GHZ_States_Public/Simulations/GHZ_Data_of_Sequential_FINAL/GHZ3_Sequential.mat';
 load(path,"OUT")
 clc
 
@@ -14,7 +14,7 @@ s11         = [0 0 ; 0 1];
 ket0        = [1;0];   
 
 
-CaseNum =  2;
+CaseNum =  3;
 
 %%
 
