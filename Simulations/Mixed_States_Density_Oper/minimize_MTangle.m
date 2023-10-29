@@ -53,23 +53,29 @@ end
 OUT.gamma_Opt = gamma_range(indx);
 OUT.minTau    = minVal;
 OUT.p         = evals(1);
-OUT.tau_Vec1  = Tangle3(evecs(:,1));
-OUT.tau_Vec2  = Tangle3(evecs(:,2));
 
-%Find the tangle of the Pure_State
+%Find the tangle of the Pure_State, and of each eigenvector
     
 if NumQubits==3
     
     OUT.PureTangle = Tangle3(PSI_Pure);
+    OUT.tau_Vec1   = Tangle3(evecs(:,1));
+    OUT.tau_Vec2   = Tangle3(evecs(:,2));
+    
+    
 
 elseif (-1)^NumQubits==1
 
     OUT.PureTangle = TangleEven(PSI_Pure);
+    OUT.tau_Vec1   = TangleEven(evecs(:,1));
+    OUT.tau_Vec2   = TangleEven(evecs(:,2));
 
+    
 elseif NumQubits==5
     
     OUT.PureTangle = Tangle5(PSI_Pure);
-
+    OUT.tau_Vec1   = Tangle5(evecs(:,1));
+    OUT.tau_Vec2   = Tangle5(evecs(:,2));
 end
     
 
