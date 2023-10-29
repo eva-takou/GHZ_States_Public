@@ -1,7 +1,7 @@
 function unitary_vs_non_unitary_MwayEP_Analytical(path_Sequential,path_Multispin)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: Oct 23, 2023
+%Last modified: Oct 28, 2023
 %--------------------------------------------------------------------------
 %
 %Script to compare the unitary with the non-unitary M-way entangling power.
@@ -95,46 +95,41 @@ d = 2;
 load(path,"OUT");
 S = OUT;
 
-tol = 4e-3;
-
 switch Scheme
     
     case 'Sequential'
         
         Max_Case = length(S.Target_Nuclei);
         
-    parfor ii=1:Max_Case
+        parfor ii=1:Max_Case
 
-        disp(['running case=',num2str(ii),' out of ',num2str(Max_Case)])
-        
-        Target_Nuclei   = S.Target_Nuclei{ii};
-        Unwanted_Nuclei = S.Unwanted_Nuclei_Names{ii};
-        temp            = S.EP_Unwanted{ii};
-        indices         = temp>tol; 
-        Unwanted_Nuclei = Unwanted_Nuclei(indices);
-        Ntarget         = length(Target_Nuclei);
-        Nnuc            = length(Target_Nuclei)+length(Unwanted_Nuclei);
+            disp(['running case=',num2str(ii),' out of ',num2str(Max_Case)])
 
-        %Parameters of unwanted spins evolution
-        phi0 = S.phi0N{ii}(Unwanted_Nuclei);
-        phi1 = S.phi1N{ii}(Unwanted_Nuclei);
-        n0   = S.n0{ii}(Unwanted_Nuclei,:);
-        n1   = S.n1{ii}(Unwanted_Nuclei,:);
+            Target_Nuclei   = S.Target_Nuclei{ii};
+            Unwanted_Nuclei = S.Unwanted_Nuclei_Names{ii};            
+            Ntarget         = length(Target_Nuclei);
+            Nnuc            = length(Target_Nuclei)+length(Unwanted_Nuclei);
 
-        %Parameters of target spins evolution
-        th0  = S.phi0N{ii}(Target_Nuclei);
-        th1  = S.phi1N{ii}(Target_Nuclei);
-        u0   = S.n0{ii}(Target_Nuclei,:);
-        u1   = S.n1{ii}(Target_Nuclei,:);
+            %Parameters of unwanted spins evolution
+            phi0 = S.phi0N{ii}(Unwanted_Nuclei);
+            phi1 = S.phi1N{ii}(Unwanted_Nuclei);
+            n0   = S.n0{ii}(Unwanted_Nuclei,:);
+            n1   = S.n1{ii}(Unwanted_Nuclei,:);
 
-        temp     = SubClass_Ent_and_Fid;
-        temp     = temp.NonUniMwayEp_CR_Analytical(Nnuc,Ntarget,phi0,phi1,n0,n1,th0,th1,u0,u1);
-        ep_E(ii) = temp.epM_nonuni/(d/(d+1))^M; %Scale by max value
-        ep_U(ii) = prod(S.EP_Target{ii}); 
+            %Parameters of target spins evolution
+            th0  = S.phi0N{ii}(Target_Nuclei);
+            th1  = S.phi1N{ii}(Target_Nuclei);
+            u0   = S.n0{ii}(Target_Nuclei,:);
+            u1   = S.n1{ii}(Target_Nuclei,:);
 
-        temp           = temp.NonUniMwayEp_CR_Aproximate(Nnuc,Ntarget,phi0,phi1,n0,n1,th0,th1,u0,u1);
-        ep_E_Aprox(ii) = temp.epM_nonuni/(d/(d+1))^M;
-    end
+            temp     = SubClass_Ent_and_Fid;
+            temp     = temp.NonUniMwayEp_CR_Analytical(Nnuc,Ntarget,phi0,phi1,n0,n1,th0,th1,u0,u1);
+            ep_E(ii) = temp.epM_nonuni/(d/(d+1))^M; %Scale by max value
+            ep_U(ii) = prod(S.EP_Target{ii}); 
+
+            temp           = temp.NonUniMwayEp_CR_Aproximate(Nnuc,Ntarget,phi0,phi1,n0,n1,th0,th1,u0,u1);
+            ep_E_Aprox(ii) = temp.epM_nonuni/(d/(d+1))^M;
+        end
         
 
         
@@ -146,9 +141,6 @@ switch Scheme
 
             Target_Nuclei   = S{ii}.Target_Nuclei;
             Unwanted_Nuclei = S{ii}.Unwanted_Nuclei;
-            temp            = S{ii}.Ep_Unwanted;
-            indices         = temp>tol;
-            Unwanted_Nuclei = Unwanted_Nuclei(indices);
 
             Ntarget         = length(Target_Nuclei);
             Nnuc            = length(Target_Nuclei)+length(Unwanted_Nuclei);
