@@ -31,10 +31,10 @@ plot(p,Tau_vec1,'marker','^','color',Blues{3},'markerfacecolor',Blues{3},'marker
 ylim([min(Tau_vec1)-0.001,1])
 fig_props(fntsize,'p','$\tau_3$ (Pure)')
 
-legend({'$\tau_3(|\psi\rangle)$','$\tau_3(|v_\pm\rangle)$','$\tau_3(|v_-\rangle)$'},...
+legend({'$\tau_3(|\psi\rangle)$','$\tau_3(|v_\pm\rangle)$'},...
        'interpreter','latex','location','best','color','none','edgecolor','none')
-
-set(gca,'ytick',[0.98,0.99,1],'yticklabels',{'0.98','0.99','1'})
+ylim([0.95,1])
+set(gca,'ytick',[0.95,0.975,1],'yticklabels',{'0.95','0.975','1'})
 xlim([min(p),max(p)])
 xlabel('$p$','interpreter','latex')
 %============================================================================

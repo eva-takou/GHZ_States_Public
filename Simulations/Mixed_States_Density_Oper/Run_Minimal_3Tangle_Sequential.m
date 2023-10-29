@@ -19,7 +19,7 @@ function [p,minTau,tauPure,Tau_vec1,Tau_vec2,x_conv,y_conv]=Run_Minimal_3Tangle_
 %        function of largest eigenvalue.
 
 
-path = '/Users/evatakou/Documents/MATLAB/Defect_Nuclear_GHZ_states/GHZ_states_Preparation/Simulations/GHZ_Data_of_Sequential_NEW/GHZ3_Sequential.mat';
+path = '/Users/evatakou/Documents/MATLAB/GHZ_States_Public/Simulations/GHZ_Data_of_Sequential_FINAL/GHZ3_Sequential.mat';
 load(path,"OUT")
 
 MaxCase =  length(OUT.Target_Nuclei);
