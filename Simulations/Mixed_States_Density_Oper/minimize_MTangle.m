@@ -1,7 +1,7 @@
 function OUT=minimize_MTangle(At,Bt,Aunw,Bunw,times,iters)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: Oct 23, 2023
+%Last modified: Oct 29, 2023
 %--------------------------------------------------------------------------
 %
 %Function to minimize the M-tangle of a mixed state of rank 2 via convex hull
