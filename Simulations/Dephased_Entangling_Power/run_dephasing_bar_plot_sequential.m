@@ -1,7 +1,7 @@
 function run_dephasing_bar_plot_sequential(lambda0)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: Oct 23, 2023
+%Last modified: Oct 28, 2023
 %--------------------------------------------------------------------------
 %
 %Function to plot the M-tangling power when the electron undergoes
@@ -46,7 +46,7 @@ colorComb={Yellows{2},Greens{2},Reds{1}};
 [s0,s1,wL]  = load_fixed_params;
 theta_coeff = [1/400,1/100,1/50]; %1/mus
 lambda1     = 1-lambda0;
-path        = '/Users/evatakou/Documents/MATLAB/Defect_Nuclear_GHZ_states/GHZ_states_Preparation/Simulations/GHZ_Data_of_Sequential_NEW/GHZ3_Sequential.mat';
+path        = '/Users/evatakou/Documents/MATLAB/GHZ_States_Public/Simulations/GHZ_Data_of_Sequential_FINAL/GHZ3_Sequential.mat';
 load(path,"OUT")
 cases       = length(OUT.Target_Nuclei);
 Nnuc        = 1;

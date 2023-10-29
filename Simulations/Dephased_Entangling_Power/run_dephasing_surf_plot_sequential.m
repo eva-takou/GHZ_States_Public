@@ -1,7 +1,7 @@
 function run_dephasing_surf_plot_sequential
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: Oct 23, 2023
+%Last modified: Oct 28, 2023
 %--------------------------------------------------------------------------
 %Function to plot the M-tangling power when the electron undergoes
 %dephasing [see Ref. arXiv:2302.05580], and for the sequential protocol.
@@ -19,7 +19,7 @@ function run_dephasing_surf_plot_sequential
 
 %============ Parameters ================================================
 [s0,s1,wL]   = load_fixed_params;
-path         = '/Users/evatakou/Documents/MATLAB/Defect_Nuclear_GHZ_states/GHZ_states_Preparation/Simulations/GHZ_Data_of_Sequential_NEW/GHZ3_Sequential.mat';
+path         = '/Users/evatakou/Documents/MATLAB/GHZ_States_Public/Simulations/GHZ_Data_of_Sequential_FINAL/GHZ3_Sequential.mat';
 load(path,"OUT")
 Nnuc         = 1;
 k            = 1;
