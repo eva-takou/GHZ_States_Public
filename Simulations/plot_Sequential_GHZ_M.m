@@ -1,7 +1,7 @@
 function plot_Sequential_GHZ_M
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: Oct 23, 2023
+%Last modified: Oct 29, 2023
 %--------------------------------------------------------------------------
 %
 %Function to plot the optimal GHZM cases obtained based on the methods developed in
@@ -32,25 +32,32 @@ legs={'GHZ_4','GHZ_5','GHZ_6','GHZ_7','GHZ_8','GHZ_9','GHZ_{10}'};
 close all;
 
 
-load('/Users/evatakou/Documents/MATLAB/Defect_Nuclear_GHZ_states/GHZ_states_Preparation/Simulations/GHZ_Data_of_Sequential_NEW/GHZ4_Sequential.mat');
+%load('/Users/evatakou/Documents/MATLAB/Defect_Nuclear_GHZ_states/GHZ_states_Preparation/Simulations/GHZ_Data_of_Sequential_NEW/GHZ4_Sequential.mat');
+load('/Users/evatakou/Documents/MATLAB/GHZ_States_Public/Simulations/GHZ_Data_of_Sequential_FINAL/GHZ4_Sequential.mat');
 S{1}=OUT;
 
-load('/Users/evatakou/Documents/MATLAB/Defect_Nuclear_GHZ_states/GHZ_states_Preparation/Simulations/GHZ_Data_of_Sequential_NEW/GHZ5_Sequential.mat');
+%load('/Users/evatakou/Documents/MATLAB/Defect_Nuclear_GHZ_states/GHZ_states_Preparation/Simulations/GHZ_Data_of_Sequential_NEW/GHZ5_Sequential.mat');
+load('/Users/evatakou/Documents/MATLAB/GHZ_States_Public/Simulations/GHZ_Data_of_Sequential_FINAL/GHZ5_Sequential.mat');
 S{2}=OUT;
 
-load('/Users/evatakou/Documents/MATLAB/Defect_Nuclear_GHZ_states/GHZ_states_Preparation/Simulations/GHZ_Data_of_Sequential_NEW/GHZ6_Sequential.mat');
+%load('/Users/evatakou/Documents/MATLAB/Defect_Nuclear_GHZ_states/GHZ_states_Preparation/Simulations/GHZ_Data_of_Sequential_NEW/GHZ6_Sequential.mat');
+load('/Users/evatakou/Documents/MATLAB/GHZ_States_Public/Simulations/GHZ_Data_of_Sequential_FINAL/GHZ6_Sequential.mat');
 S{3}=OUT;
 
-load('/Users/evatakou/Documents/MATLAB/Defect_Nuclear_GHZ_states/GHZ_states_Preparation/Simulations/GHZ_Data_of_Sequential_NEW/GHZ7_Sequential.mat');
+%load('/Users/evatakou/Documents/MATLAB/Defect_Nuclear_GHZ_states/GHZ_states_Preparation/Simulations/GHZ_Data_of_Sequential_NEW/GHZ7_Sequential.mat');
+load('/Users/evatakou/Documents/MATLAB/GHZ_States_Public/Simulations/GHZ_Data_of_Sequential_FINAL/GHZ7_Sequential.mat');
 S{4}=OUT;
 
-load('/Users/evatakou/Documents/MATLAB/Defect_Nuclear_GHZ_states/GHZ_states_Preparation/Simulations/GHZ_Data_of_Sequential_NEW/GHZ8_Sequential.mat');
+%load('/Users/evatakou/Documents/MATLAB/Defect_Nuclear_GHZ_states/GHZ_states_Preparation/Simulations/GHZ_Data_of_Sequential_NEW/GHZ8_Sequential.mat');
+load('/Users/evatakou/Documents/MATLAB/GHZ_States_Public/Simulations/GHZ_Data_of_Sequential_FINAL/GHZ8_Sequential.mat');
 S{5}=OUT;
 
-load('/Users/evatakou/Documents/MATLAB/Defect_Nuclear_GHZ_states/GHZ_states_Preparation/Simulations/GHZ_Data_of_Sequential_NEW/GHZ9_Sequential.mat');
+%load('/Users/evatakou/Documents/MATLAB/Defect_Nuclear_GHZ_states/GHZ_states_Preparation/Simulations/GHZ_Data_of_Sequential_NEW/GHZ9_Sequential.mat');
+load('/Users/evatakou/Documents/MATLAB/GHZ_States_Public/Simulations/GHZ_Data_of_Sequential_FINAL/GHZ9_Sequential.mat');
 S{6}=OUT;
 
-load('/Users/evatakou/Documents/MATLAB/Defect_Nuclear_GHZ_states/GHZ_states_Preparation/Simulations/GHZ_Data_of_Sequential_NEW/GHZ10_Sequential.mat');
+%load('/Users/evatakou/Documents/MATLAB/Defect_Nuclear_GHZ_states/GHZ_states_Preparation/Simulations/GHZ_Data_of_Sequential_NEW/GHZ10_Sequential.mat');
+load('/Users/evatakou/Documents/MATLAB/GHZ_States_Public/Simulations/GHZ_Data_of_Sequential_FINAL/GHZ10_Sequential.mat');
 S{7}=OUT;
 
 
@@ -102,7 +109,7 @@ for ii=1:rows
                     
                 elseif ii==4 %GHZ7
                     
-                    fntSizeCarbon = 8;
+                    fntSizeCarbon = 7;
                     
                 elseif ii==5  %GHZ8
                     
@@ -122,7 +129,7 @@ for ii=1:rows
              if (ii==4 && (-1)^jj==1) || (ii==5 && (-1)^jj==1)
                  
                 text(ax,'String',strcat("C",num2str(S{ii}.Target_Nuclei{kk}(jj))),...
-                 'Position',[b(jj).XEndPoints(kk),max(ax.YLim)+0.025],...
+                 'Position',[b(jj).XEndPoints(kk),max(ax.YLim)+0.043],...
                  'color','k','fontsize',fntSizeCarbon,...
                  'Rotation',90,'fontname','microsoft sans serif'); %'interpret','latex'
              
