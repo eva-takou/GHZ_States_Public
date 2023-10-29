@@ -20,7 +20,7 @@ function run_dephasing_surf_plot_multispin
 %============ Parameters ================================================
 
 [s0,s1,wL]  = load_fixed_params;
-path        = '/Users/evatakou/Documents/MATLAB/Defect_Nuclear_GHZ_states/GHZ_states_Preparation/Simulations/GHZ_Data_of_MultiSpin_NEW/GHZ3_Multispin.mat';
+path        = '/Users/evatakou/Documents/MATLAB/GHZ_States_Public/Simulations/GHZ_Data_of_MultiSpin_NEW/GHZ3_Multispin.mat';
 load(path,"OUT")
 Nnuc         = 1;
 k            = 1;

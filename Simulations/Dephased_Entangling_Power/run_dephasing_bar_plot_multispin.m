@@ -47,7 +47,7 @@ colorComb={Yellows{2},Greens{2},Reds{1}};
 [s0,s1,wL]  = load_fixed_params;
 theta_coeff = [1/400,1/100,1/50]; %1/mus
 lambda1     = 1-lambda0;
-path        = '/Users/evatakou/Documents/MATLAB/Defect_Nuclear_GHZ_states/GHZ_states_Preparation/Simulations/GHZ_Data_of_MultiSpin_NEW/GHZ3_Multispin.mat';
+path        = '/Users/evatakou/Documents/MATLAB/GHZ_States_Public/Simulations/GHZ_Data_of_MultiSpin_NEW/GHZ3_Multispin.mat';
 load(path,"OUT")
 cases       = length(OUT);
 Nnuc        = 1;
