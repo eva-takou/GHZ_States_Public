@@ -1,7 +1,7 @@
 function run_gaussian_Pulse_Errors_MultiSpin(variance)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: Oct 23, 2023
+%Last modified: Oct 28, 2023
 %--------------------------------------------------------------------------
 %
 %Script to add random over-/under-rotation errors for the Rx(pi) pulses,
@@ -25,7 +25,7 @@ LightBlue={[178,223,238]/255,[135,206,250]/255,[162,181,205]/255,[102,139,139]/2
 %============ Parameters ================================================
 
 [s0,s1,wL]  = load_fixed_params;
-path        = '/Users/evatakou/Documents/MATLAB/Defect_Nuclear_GHZ_states/GHZ_states_Preparation/Simulations/GHZ_Data_of_MultiSpin_NEW/GHZ4_Multispin.mat';
+path        = '/Users/evatakou/Documents/MATLAB/GHZ_States_Public/Simulations/GHZ_Data_of_MultiSpin_NEW/GHZ4_Multispin.mat';
 load(path,"OUT");
 k           = 1;
 cases       = length(OUT);
@@ -35,7 +35,7 @@ pref        = (2/3)^M;
 
 %=========================================================================
 
-MaxRep = 500; %~20mins
+MaxRep = 1000; %~20mins
 
 D=parallel.pool.Constant(OUT);
 

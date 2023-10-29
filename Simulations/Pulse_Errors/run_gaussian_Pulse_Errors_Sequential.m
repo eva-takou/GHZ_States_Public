@@ -1,7 +1,7 @@
 function run_gaussian_Pulse_Errors_Sequential(variance)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: Oct 23, 2023
+%Last modified: Oct 28, 2023
 %--------------------------------------------------------------------------
 %
 %Script to add random over-/under-rotation errors for the Rx(pi) pulses,
@@ -26,7 +26,7 @@ LightBlue={[178,223,238]/255,[135,206,250]/255,[162,181,205]/255,[102,139,139]/2
 
 %============ Parameters ================================================
 
-path        = '/Users/evatakou/Documents/MATLAB/Defect_Nuclear_GHZ_states/GHZ_states_Preparation/Simulations/GHZ_Data_of_Sequential_NEW/GHZ4_Sequential.mat';
+path        = '/Users/evatakou/Documents/MATLAB/GHZ_States_Public/Simulations/GHZ_Data_of_Sequential_FINAL/GHZ4_Sequential.mat';
 load(path,"OUT");
 [s0,s1,wL]  = load_fixed_params;
 k           = 1;
