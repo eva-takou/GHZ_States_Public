@@ -1,7 +1,7 @@
 function uncertainty_HF_parameters_sequential(p)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: Oct 23, 2023
+%Last modified: Oct 29, 2023
 %--------------------------------------------------------------------------
 %
 %Script to add uncertainty in HF parameters by shifting the HF components
@@ -29,13 +29,13 @@ for ll=3:GHZsizeMax
     GHZsize=ll;
     
     if GHZsize==3
-        load('/Users/evatakou/Documents/MATLAB/Defect_Nuclear_GHZ_states/GHZ_states_Preparation/Simulations/GHZ_Data_of_Sequential_NEW/GHZ3_Sequential.mat',"OUT")
+        load('/Users/evatakou/Documents/MATLAB/GHZ_States_Public/Simulations/GHZ_Data_of_Sequential_FINAL/GHZ3_Sequential.mat',"OUT")
     elseif GHZsize==4
-        load('/Users/evatakou/Documents/MATLAB/Defect_Nuclear_GHZ_states/GHZ_states_Preparation/Simulations/GHZ_Data_of_Sequential_NEW/GHZ4_Sequential.mat',"OUT")
+        load('/Users/evatakou/Documents/MATLAB/GHZ_States_Public/Simulations/GHZ_Data_of_Sequential_FINAL/GHZ4_Sequential.mat',"OUT")
     elseif GHZsize==5
-        load('/Users/evatakou/Documents/MATLAB/Defect_Nuclear_GHZ_states/GHZ_states_Preparation/Simulations/GHZ_Data_of_Sequential_NEW/GHZ5_Sequential.mat',"OUT")
+        load('/Users/evatakou/Documents/MATLAB/GHZ_States_Public/Simulations/GHZ_Data_of_Sequential_FINAL/GHZ5_Sequential.mat',"OUT")
     elseif GHZsize==6
-        load('/Users/evatakou/Documents/MATLAB/Defect_Nuclear_GHZ_states/GHZ_states_Preparation/Simulations/GHZ_Data_of_Sequential_NEW/GHZ6_Sequential.mat',"OUT")
+        load('/Users/evatakou/Documents/MATLAB/GHZ_States_Public/Simulations/GHZ_Data_of_Sequential_FINAL/GHZ6_Sequential.mat',"OUT")
     end    
     
     cases = length(OUT.Target_Nuclei);
@@ -72,6 +72,12 @@ for ll=3:GHZsizeMax
 
       end
       
+      %----------- This is a test -----------------------------------------
+      if any(abs(ep_nuc(jj,:)-OUT.EP_Target{jj})>1e-9)
+         error('Incorrect evaluation of target one tangles') 
+      end
+      
+      
       epM(jj)      = prod(ep_nuc(jj,:));
 
       clear phi0
@@ -99,7 +105,6 @@ for ll=3:GHZsizeMax
           n0n1 = dot(n0{indx},n1{indx});
           ep_nuc(jj,indx) = 1-(cos(phi0(indx)/2)*cos(phi1(indx)/2)+n0n1*sin(phi0(indx)/2)*sin(phi1(indx)/2))^2;
 
-
       end
 
       epM_uncertain(jj) = prod(ep_nuc(jj,:));
@@ -115,7 +120,7 @@ for ll=3:GHZsizeMax
     ylabel('$\Delta \epsilon_{p,M}(U)$','interpreter','latex')
     set(gcf,'color','w')
     set(gca,'fontsize',18,'fontname','Microsoft Sans Serif')
-    
+    title(strcat('GHZ_',num2str(ll)))
     if length(epM)==11
         set(gca,'xtick',2:2:10) 
     end

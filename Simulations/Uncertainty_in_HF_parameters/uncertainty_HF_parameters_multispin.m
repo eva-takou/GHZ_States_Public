@@ -1,7 +1,7 @@
 function uncertainty_HF_parameters_multispin(p)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: Oct 23, 2023
+%Last modified: Oct 29, 2023
 %--------------------------------------------------------------------------
 %
 %Script to add uncertainty in HF parameters by shifting the HF components
@@ -131,7 +131,7 @@ for ll=3:GHZsizeMax
     ylabel('$\Delta \epsilon_{p,M}(U)$','interpreter','latex')
     set(gcf,'color','w')
     set(gca,'fontsize',18,'fontname','Microsoft Sans Serif')
-
+    title(strcat('GHZ_',num2str(ll)))
     set(gca, 'Box', 'on', 'TickDir', 'out', 'TickLength', [.003 .003], ...
     'XMinorTick', 'off', 'YMinorTick', 'on', 'YGrid', 'on', ...
     'XColor', [.3 .3 .3], 'YColor', [.3 .3 .3],  ...
