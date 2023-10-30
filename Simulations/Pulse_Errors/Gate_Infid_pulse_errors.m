@@ -111,17 +111,12 @@ switch Option
         
         end
         
-        %Get the average, and deviation from mean
+        %Get the average values:
         
         for N=1:Nmax
             
-           meanF_CPMG(N)  = mean(FidCPMG(:,N));
-           miner_CPMG(N)  = meanF_CPMG(N)-min(FidCPMG(:,N));
-           maxer_CPMG(N)  = max(FidCPMG(:,N))-meanF_CPMG(N);
-
+           meanF_CPMG(N) = mean(FidCPMG(:,N));
            meanF_XY2(N)  = mean(FidXY2(:,N));
-           miner_XY2(N)  = meanF_XY2(N)-min(FidXY2(:,N));
-           maxer_XY2(N)  = max(FidXY2(:,N))-meanF_XY2(N);
             
         end
         
@@ -199,7 +194,7 @@ end
 
 
 function F=calculate_fid(rho0s,U0,Uerr)
-
+%Function to calculate gate fidelity by averaging over 6 axial states.
 
 for jj=1:length(rho0s)
     
@@ -219,6 +214,7 @@ F=sum(f)/6;
 end
 
 function [FidCPMG,FidXY2]=one_realization_random_errors(UCPMG,UXY2,Nmax,t,sigma,rho0s)
+%Get the errors for each iteration, assuming random pulse errors.
 
 Uer_CPMG = eye(2);
 Uer_XY2  = eye(2);
